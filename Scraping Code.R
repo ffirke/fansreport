@@ -80,7 +80,7 @@ data05 <- foreach(n = 1:length(teamlist05),.combine=rbind) %dopar% {
 
 data05 %<>% rename(Agreement=AgreementLevel,Overall = `OverallPosition-Neutral`) %>% 
   mutate(Age=NA,Pos=NA,GP=NA) %>% group_by(Player,Overall) %>% mutate(MaxTeam = max(Team)) %>% 
-  filter(Team==MaxTeam) %>% ungroup() %>% select(-MaxTeam)
+  filter(Team==MaxTeam) %>% ungroup() %>% select(-MaxTeam) %>% mutate(Ballots=ifelse(Player=="E Garabito",1,Ballots))
 
 scrape0608 <- function(team,year) {
   tempURL <- top %>% paste0("scoutResults",year,"_",team,".html")
